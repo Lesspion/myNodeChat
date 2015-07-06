@@ -1,0 +1,33 @@
+{
+  "name": "myNodeChat",
+  "version": "0.0.0",
+  "description": "A little chat in websocket",
+  "main": "server.js",
+  "dependencies": {
+    "ent": "~0.1.0",
+    "express": "~3.3.4",
+    "nodemon": "^1.3.7",
+    "socket.io": "^1.2.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Lesspion/myNodeChat.git"
+  },
+  "keywords": [
+    "node",
+    "chat",
+    "websocket",
+    "io"
+  ],
+  "author": "coquel_d",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lesspion/myNodeChat/issues"
+  }
+}

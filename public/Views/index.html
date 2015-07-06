@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>My Super Chat !</title>
+    </head>
+    <body>
+        <p>Bouh</p>
+        <p>Entrez votre pseudo : </p>
+        <input type="text" id="myPseudo" />
+        <input type="submit" id="co" value="Se connecter"/>
+
+        <p>--------------------------------</p>
+        <input type="text" id="newMsg">
+        <input type="submit" value="Send" id="send">
+        <div id="list"></div>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript">
+            var socket = io.connect('http://localhost:8080');
+            var curPseudo;
+            socket.on('all', function (msg) {
+                alert(msg);
+            });
+            socket.on('allMsg', function (param) {
+                console.log(param);
+                insertMsg(param.pseudo, param.msg);
+            });
+            document.getElementById('co').addEventListener('click', function (e) {
+                    console.log('ok');
+                    if (document.getElementById('myPseudo').value !== "") {
+                        curPseudo = document.getElementById('myPseudo').value;
+                        socket.emit('noob', document.getElementById('myPseudo').value);
+                    } else {
+                        console.log('else');
+                        e.preventDefault();
+                    }
+                });
+            document.getElementById('send').addEventListener('click', function (e) {
+                if (document.getElementById('newMsg').value !== "") {
+                    console.log('hihi');
+                    socket.emit('news', document.getElementById('newMsg').value);
+                    insertMsg(curPseudo, document.getElementById('newMsg').value);
+                } else {
+                    e.preventDefault();
+                }
+            });
+            function insertMsg(pseudo, msg) {
+                document.getElementById('list').innerHTML = pseudo + ' : ' + msg + "<br />" + document.getElementById('list').innerHTML;
+                document.getElementById('newMsg').value = "";
+            }
+        </script>
+    </body>
+</html>
