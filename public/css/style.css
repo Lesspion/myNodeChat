@@ -1,0 +1,13 @@
+body {
+	height: 100%;
+	background-image: url(../img/background1.jpg);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-attachment: fixed;;
+}
+
+#main {
+	color: black;
+	float: left;
+	margin-left: 45%;
+}

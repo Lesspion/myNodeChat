@@ -3,17 +3,19 @@
     <head>
         <meta charset="utf-8">
         <title>My Super Chat !</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
-        <p>Bouh</p>
-        <p>Entrez votre pseudo : </p>
-        <input type="text" id="myPseudo" />
-        <input type="submit" id="co" value="Se connecter"/>
-
-        <p>--------------------------------</p>
-        <input type="text" id="newMsg">
-        <input type="submit" value="Send" id="send">
-        <div id="list"></div>
+        <div id="main">
+            <p>Bouh</p>
+            <p>Entrez votre pseudo : </p>
+            <input type="text" id="myPseudo" class="inpT" />
+            <input type="submit" id="co" value="Se connecter" class="inpS" />
+            <p>--------------------------------</p>
+            <input type="text" id="newMsg" class="inpT" />
+            <input type="submit" value="Send" id="send" class="inpS" />
+            <div id="list"></div>
+        </div>
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script type="text/javascript">
