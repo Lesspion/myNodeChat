@@ -31,5 +31,6 @@ io.sockets.on('connection', function (socket) {
     })
 });
 
-server.listen(8080);
-console.log('Server is running at http://10.34.1.15:8080');
+server.listen(app.get('port')); /8080
+console.log('running on port : ' + app.get('port'));
+//console.log('Server is running at http://10.34.1.15:8080');
