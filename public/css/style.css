@@ -1,4 +1,4 @@
-body {
+/*body {
 	height: 100%;
 	background-image: url(../img/background1.jpg);
 	background-repeat: no-repeat;
@@ -10,4 +10,62 @@ body {
 	color: black;
 	float: left;
 	margin-left: 45%;
+}*/
+
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	min-height: 100%;
+}
+
+.pseudo {
+	color: red;
+	font-size: 1.1em;
+}
+
+#mess {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+/*.inp {
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+}*/
+
+.inpT {
+	width: 82%;
+}
+
+.inpS {
+	width: 15%;
+}
+
+
+#list {
+	height: 90%;
+	display: block;
+	float: left;
+	border-width: 1px;
+	width: 100%;
+	overflow: auto;
+}
+
+.system {
+	font-style: oblique;
+	font-size: 0.8em;
+}
+
+.me {
+	color: blue;
 }

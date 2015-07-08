@@ -16,20 +16,20 @@ app.get('/', function (req, res) {
     });
 });
 
-io.sockets.on('connection', function (socket, pseudo) {
-    var pseudo = pseudo;
+io.sockets.on('connection', function (socket) {
     socket.on('noob', function (pseudo) {
-        pseudo = ent.encode(pseudo);
         socket.pseudo = pseudo;
-        console.log(socket.pseudo);
-        socket.broadcast.emit('all', 'Hey un p\'tit nouveau du nom de ' + socket.pseudo);
+        socket.broadcast.emit('all', socket.pseudo + ' vient de se connecter.');
     });
     socket.on('news', function (msg) {
-        console.log('ok pour news reception');
         var cur = socket.pseudo;
+        console.log(cur);
         socket.broadcast.emit('allMsg', {pseudo: cur, msg: msg});
     });
+    socket.on('disconnect', function () {
+        socket.broadcast.emit('clientDisconnect', socket.pseudo + ' vient de se déconnecter');
+    })
 });
 
 server.listen(8080);
-console.log('Server is running at http://localhost:8080');
+console.log('Server is running at http://10.34.1.15:8080');

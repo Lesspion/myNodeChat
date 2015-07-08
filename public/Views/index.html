@@ -6,51 +6,80 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
+        <audio id="sound">
+            <source src="sound/tamtam.wav" type="audio/wav">
+        </audio>
         <div id="main">
-            <p>Bouh</p>
-            <p>Entrez votre pseudo : </p>
-            <input type="text" id="myPseudo" class="inpT" />
-            <input type="submit" id="co" value="Se connecter" class="inpS" />
-            <p>--------------------------------</p>
-            <input type="text" id="newMsg" class="inpT" />
-            <input type="submit" value="Send" id="send" class="inpS" />
             <div id="list"></div>
+            <div id="mess">
+                <input type="text" id="newMsg" class="inpT inp" />
+                <input type="submit" value="Send" id="send" class="inpS inp" />
+            </div>
         </div>
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script type="text/javascript">
             var socket = io.connect('http://localhost:8080');
-            var curPseudo;
+            var curPseudo = null;
+            while (curPseudo === null || curPseudo === "") {
+                curPseudo = prompt("Entrez votre prénom nom : ");
+                console.log("now : " + curPseudo);
+                if (curPseudo !== null || curPseudo !== "") {
+                    console.log(curPseudo);
+                    socket.emit('noob', curPseudo);
+                }
+            }
+
             socket.on('all', function (msg) {
-                alert(msg);
+                insertSystem(msg);
             });
+
             socket.on('allMsg', function (param) {
-                console.log(param);
                 insertMsg(param.pseudo, param.msg);
+                document.getElementById('sound').play();
             });
-            document.getElementById('co').addEventListener('click', function (e) {
-                    console.log('ok');
-                    if (document.getElementById('myPseudo').value !== "") {
-                        curPseudo = document.getElementById('myPseudo').value;
-                        socket.emit('noob', document.getElementById('myPseudo').value);
-                    } else {
-                        console.log('else');
-                        e.preventDefault();
-                    }
-                });
+
             document.getElementById('send').addEventListener('click', function (e) {
                 if (document.getElementById('newMsg').value !== "") {
-                    console.log('hihi');
                     socket.emit('news', document.getElementById('newMsg').value);
-                    insertMsg(curPseudo, document.getElementById('newMsg').value);
+                    insertMsg(curPseudo, document.getElementById('newMsg').value, true);
+                    document.getElementById('list').scrollTop = document.getElementById('list').scrollHeight;
                 } else {
                     e.preventDefault();
                 }
             });
-            function insertMsg(pseudo, msg) {
-                document.getElementById('list').innerHTML = pseudo + ' : ' + msg + "<br />" + document.getElementById('list').innerHTML;
-                document.getElementById('newMsg').value = "";
+
+            socket.on('clientDisconnect', function (msg) {
+                insertSystem(msg);
+            });
+
+            window.onbeforeunload = function () {
+                socket.emit('disconnect');
+            };
+
+            function insertMsg(pseudo, msg, me) {
+                var me = me || false;
+                if (me) {
+                    document.getElementById('list').innerHTML = document.getElementById('list').innerHTML + "<span class='pseudo me'>" + pseudo + "</span>" + ' : ' + msg + "<br />";
+                    document.getElementById('newMsg').value = "";
+                } else {
+                    document.getElementById('list').innerHTML = document.getElementById('list').innerHTML + "<span class='pseudo'>" + pseudo + "</span>" + ' : ' + msg + "<br />";
+                    document.getElementById('newMsg').value = "";
+                }
             }
+
+            function insertSystem(msg) {
+                document.getElementById('list').innerHTML = document.getElementById('list').innerHTML + "<span class='system'>" + msg + "</span>" + "<br />";
+            }
+
+            document.addEventListener('keydown', function (press) {
+                var myPress = press.which || press.keyCode;
+                if (myPress === 13) {
+                    socket.emit('news', document.getElementById('newMsg').value);
+                    insertMsg(curPseudo, document.getElementById('newMsg').value, true);
+                    document.getElementById('list').scrollTop = document.getElementById('list').scrollHeight;
+                }
+            });
         </script>
     </body>
 </html>
